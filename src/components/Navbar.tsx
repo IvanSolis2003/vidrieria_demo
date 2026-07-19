@@ -42,7 +42,7 @@ export default function Navbar() {
               flexGrow: { xs: 1, md: 0 },
             }}
           >
-            IMPERIO
+            VIDRIERÍA DEMO
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "center", gap: 1 }}>

@@ -6,7 +6,7 @@ import { getCategorias } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Cotizar — Imperio",
+  title: "Cotizar — Vidriería Demo",
 };
 
 export default async function CotizarPage({

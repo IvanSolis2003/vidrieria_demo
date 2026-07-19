@@ -32,7 +32,7 @@ npm run seed
 ```
 
 El seed crea las categorías, proyectos y el usuario admin
-(`admin@imperio.cl` / `imperio123`).
+(`admin@vidrieriademo.cl` / `demo1234`).
 
 ## 3. Deploy en Vercel
 

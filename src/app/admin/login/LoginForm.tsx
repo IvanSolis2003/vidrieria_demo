@@ -26,7 +26,7 @@ export default function LoginForm() {
     >
       <Paper sx={{ p: 4, width: "100%", maxWidth: 380 }}>
         <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>
-          IMPERIO
+          VIDRIERÍA DEMO
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           Panel de administracion

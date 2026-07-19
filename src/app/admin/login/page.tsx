@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import LoginForm from "./LoginForm";
 
 export const metadata = {
-  title: "Ingresar — Panel Imperio",
+  title: "Ingresar — Panel Vidriería Demo",
 };
 
 export default async function LoginPage() {

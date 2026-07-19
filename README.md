@@ -1,6 +1,6 @@
-# Vidriería Demo — Imperio PVC · Aluminio · Vidrios
+# Vidriería Demo — PVC · Aluminio · Vidrios
 
-Demo funcional del sitio web para **Imperio** (aluminio, PVC y vidrios). Incluye el sitio
+Demo funcional del sitio web para una vidriería (aluminio, PVC y vidrios). Incluye el sitio
 público (catálogo + cotizador) y el panel de administración donde el dueño gestiona las
 cotizaciones que le llegan.
 
@@ -59,8 +59,8 @@ Ver [.env.example](.env.example). Necesitas cuentas gratuitas en:
 
 El seed crea un usuario administrador inicial:
 
-- **Email:** `admin@imperio.cl`
-- **Contraseña:** `imperio123`
+- **Email:** `admin@vidrieriademo.cl`
+- **Contraseña:** `demo1234`
 
 Cámbialos en producción (edita `prisma/seed.ts` o la tabla `AdminUser`).
 

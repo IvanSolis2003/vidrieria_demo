@@ -29,7 +29,7 @@ export default async function Home() {
           position: "relative",
           color: "#fff",
           backgroundImage:
-            "linear-gradient(rgba(10,10,10,0.65), rgba(10,10,10,0.75)), url(https://picsum.photos/seed/imperio-hero/1600/900)",
+            "linear-gradient(rgba(10,10,10,0.6), rgba(10,10,10,0.7)), url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80&auto=format&fit=crop)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

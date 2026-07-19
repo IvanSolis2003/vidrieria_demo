@@ -12,7 +12,7 @@ import { getCategorias } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Productos y servicios — Imperio",
+  title: "Productos y servicios — Vidriería Demo",
 };
 
 export default async function ProductosPage() {

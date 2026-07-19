@@ -6,7 +6,7 @@ import theme, { roboto } from "@/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Imperio — Aluminio, PVC y Vidrios",
+  title: "Vidriería Demo — Aluminio, PVC y Vidrios",
   description:
     "Ventanas de PVC, termopanel, vidrios dimensionados y shower door. Cotiza tu proyecto en línea.",
 };

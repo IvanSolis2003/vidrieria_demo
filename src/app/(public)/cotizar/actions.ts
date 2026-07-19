@@ -49,7 +49,7 @@ export async function crearCotizacion(data: CotizacionInput): Promise<Resultado>
     const medidas = d.vanos
       .map((v, i) => `${i + 1}) ${v.alto}x${v.ancho} cm`)
       .join(", ");
-    const mensaje = `Hola Imperio! Soy ${d.nombre}. Quiero cotizar: ${categoria.nombre}. Medidas: ${medidas}. Comuna: ${d.comuna || "-"}. Telefono: ${d.telefono}.`;
+    const mensaje = `Hola! Soy ${d.nombre}. Quiero cotizar: ${categoria.nombre}. Medidas: ${medidas}. Comuna: ${d.comuna || "-"}. Telefono: ${d.telefono}.`;
 
     return { ok: true, whatsappUrl: linkWhatsApp(mensaje) };
   } catch (e) {

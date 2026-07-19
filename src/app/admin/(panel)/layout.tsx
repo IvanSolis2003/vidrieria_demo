@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import AdminNav from "./AdminNav";
 
 export const metadata = {
-  title: "Panel — Imperio",
+  title: "Panel — Vidriería Demo",
 };
 
 export default async function PanelLayout({

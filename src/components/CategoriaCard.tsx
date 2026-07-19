@@ -21,7 +21,7 @@ export default function CategoriaCard({ nombre, slug, descripcion, imagenUrl }: 
         <CardMedia
           component="img"
           height="180"
-          image={imagenUrl ?? "https://picsum.photos/seed/placeholder/900/650"}
+          image={imagenUrl ?? "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900&q=80&auto=format&fit=crop"}
           alt={nombre}
         />
         <CardContent sx={{ flexGrow: 1 }}>

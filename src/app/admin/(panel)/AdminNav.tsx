@@ -24,7 +24,7 @@ export default function AdminNav() {
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ gap: 1, flexWrap: "wrap" }}>
           <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 1, color: "#fff", mr: 2 }}>
-            IMPERIO · Panel
+            VIDRIERÍA DEMO · Panel
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: "flex", gap: 0.5, flexWrap: "wrap" }}>

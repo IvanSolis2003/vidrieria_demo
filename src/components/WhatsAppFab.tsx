@@ -6,7 +6,7 @@ export default function WhatsAppFab() {
   return (
     <Fab
       component="a"
-      href={linkWhatsApp("Hola Imperio, vengo desde la web y quiero cotizar un proyecto.")}
+      href={linkWhatsApp("Hola, vengo desde la web y quiero cotizar un proyecto.")}
       target="_blank"
       rel="noopener"
       aria-label="Escríbenos por WhatsApp"

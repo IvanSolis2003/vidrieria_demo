@@ -12,10 +12,10 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { linkWhatsApp, whatsappNumero } from "@/lib/whatsapp";
 
 export const metadata = {
-  title: "Contacto — Imperio",
+  title: "Contacto — Vidriería Demo",
 };
 
-const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/aluminioyvidriosimperio";
+const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";
 
 function telFormato(n: string) {
   return `+${n.slice(0, 2)} ${n.slice(2, 3)} ${n.slice(3, 7)} ${n.slice(7)}`;
@@ -65,7 +65,7 @@ export default function ContactoPage() {
                   rel="noopener"
                   sx={{ textDecoration: "none" }}
                 >
-                  @aluminioyvidriosimperio
+                  @vidrieria.demo
                 </Typography>
               </Box>
             </Paper>
@@ -84,7 +84,7 @@ export default function ContactoPage() {
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <Button
                 component="a"
-                href={linkWhatsApp("Hola Imperio, quiero cotizar un proyecto.")}
+                href={linkWhatsApp("Hola, quiero cotizar un proyecto.")}
                 target="_blank"
                 rel="noopener"
                 variant="contained"

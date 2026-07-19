@@ -12,7 +12,7 @@ type DatosEmail = {
 export async function notificarCotizacion(d: DatosEmail): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const para = process.env.NOTIFY_EMAIL;
-  const from = process.env.RESEND_FROM ?? "Vidrieria Imperio <onboarding@resend.dev>";
+  const from = process.env.RESEND_FROM ?? "Vidrieria Demo <onboarding@resend.dev>";
 
   if (!apiKey || !para || apiKey === "re_DUMMY") {
     console.warn("Resend no configurado: se omite el email de notificacion.");

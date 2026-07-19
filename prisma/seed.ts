@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const img = (seed: string) => `https://picsum.photos/seed/${seed}/900/650`;
+const img = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?w=900&q=80&auto=format&fit=crop`;
 
 const categorias = [
   {
@@ -11,7 +12,7 @@ const categorias = [
     slug: "ventanas-pvc",
     descripcion:
       "Ventanas de PVC de alta hermeticidad y aislacion termica y acustica. Perfiles Veratec y Winhouse.",
-    imagenUrl: img("ventanas-pvc"),
+    imagenUrl: img("1493809842364-78817add7ffb"),
     productos: [
       { nombre: "Ventana corredera PVC", descripcion: "Ideal para living y dormitorios, facil operacion." },
       { nombre: "Ventana proyectante PVC", descripcion: "Apertura hacia afuera, excelente ventilacion." },
@@ -23,7 +24,7 @@ const categorias = [
     slug: "termopanel-monolitico",
     descripcion:
       "Vidrios termopanel (doble vidriado hermetico) y monolitico para todo tipo de proyecto.",
-    imagenUrl: img("termopanel"),
+    imagenUrl: img("1600607687939-ce8a6c25118c"),
     productos: [
       { nombre: "Termopanel DVH", descripcion: "Doble vidrio con camara de aire, ahorro energetico." },
       { nombre: "Vidrio monolitico", descripcion: "Vidrio simple templado o laminado segun uso." },
@@ -34,7 +35,7 @@ const categorias = [
     slug: "vidrios-dimensionados",
     descripcion:
       "Vidrios cortados a medida: templados, laminados y flotados para mesones, cubiertas y mas.",
-    imagenUrl: img("vidrios"),
+    imagenUrl: img("1556909212-d5b604d0c90d"),
     productos: [
       { nombre: "Vidrio templado a medida", descripcion: "Resistente y seguro, cortado a tu medida." },
       { nombre: "Vidrio laminado de seguridad", descripcion: "No se desarma al romperse, ideal seguridad." },
@@ -45,7 +46,7 @@ const categorias = [
     slug: "shower-door",
     descripcion:
       "Separadores de bano en vidrio templado con herrajes de calidad. Instalacion incluida.",
-    imagenUrl: img("shower-door"),
+    imagenUrl: img("1584622650111-993a426fbf0a"),
     productos: [
       { nombre: "Shower door corredero", descripcion: "Sistema corredero para espacios reducidos." },
       { nombre: "Shower door abatible", descripcion: "Apertura clasica, elegante y funcional." },
@@ -54,12 +55,12 @@ const categorias = [
 ];
 
 const proyectos = [
-  { titulo: "Ventanas PVC en casa Talca", seed: "proy-1", destacado: true },
-  { titulo: "Termopanel edificio corporativo", seed: "proy-2", destacado: true },
-  { titulo: "Shower door bano principal", seed: "proy-3", destacado: true },
-  { titulo: "Cierre de terraza en aluminio", seed: "proy-4", destacado: false },
-  { titulo: "Vidrios dimensionados para cocina", seed: "proy-5", destacado: false },
-  { titulo: "Fachada vidriada local comercial", seed: "proy-6", destacado: false },
+  { titulo: "Ventanas PVC en casa Talca", seed: "1449844908441-8829872d2607", destacado: true },
+  { titulo: "Termopanel edificio corporativo", seed: "1600566753086-00f18fb6b3ea", destacado: true },
+  { titulo: "Shower door bano principal", seed: "1620626011761-996317b8d101", destacado: true },
+  { titulo: "Cierre de terraza en aluminio", seed: "1600210492486-724fe5c67fb0", destacado: false },
+  { titulo: "Vidrios dimensionados para cocina", seed: "1556909212-d5b604d0c90d", destacado: false },
+  { titulo: "Fachada vidriada local comercial", seed: "1615873968403-89e068629265", destacado: false },
 ];
 
 async function main() {
@@ -87,15 +88,13 @@ async function main() {
     });
   }
 
-  const email = "admin@imperio.cl";
-  const passwordHash = await bcrypt.hash("imperio123", 10);
-  await prisma.adminUser.upsert({
-    where: { email },
-    update: { passwordHash },
-    create: { email, passwordHash },
-  });
+  const email = "admin@vidrieriademo.cl";
+  const password = "demo1234";
+  const passwordHash = await bcrypt.hash(password, 10);
+  await prisma.adminUser.deleteMany();
+  await prisma.adminUser.create({ data: { email, passwordHash } });
 
-  console.log("Seed completado. Admin:", email, "/ password: imperio123");
+  console.log("Seed completado. Admin:", email, "/ password:", password);
 }
 
 main()

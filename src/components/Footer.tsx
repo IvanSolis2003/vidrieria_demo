@@ -8,7 +8,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { linkWhatsApp } from "@/lib/whatsapp";
 
-const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/aluminioyvidriosimperio";
+const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";
 
 export default function Footer() {
   return (
@@ -22,7 +22,7 @@ export default function Footer() {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 1 }}>
-              IMPERIO
+              VIDRIERÍA DEMO
             </Typography>
             <Typography variant="body2" color="#999">
               Aluminio · PVC · Vidrios — Talca, Region del Maule
@@ -32,7 +32,7 @@ export default function Footer() {
           <Stack direction="row" spacing={2}>
             <Button
               component="a"
-              href={linkWhatsApp("Hola Imperio, quiero mas informacion.")}
+              href={linkWhatsApp("Hola, quiero mas informacion.")}
               target="_blank"
               rel="noopener"
               startIcon={<WhatsAppIcon />}
@@ -68,7 +68,7 @@ export default function Footer() {
         </Stack>
 
         <Typography variant="caption" color="#666" sx={{ display: "block", mt: 3 }}>
-          © {new Date().getFullYear()} Imperio. Demo con fines de demostracion.
+          © {new Date().getFullYear()} Vidriería Demo. Sitio de demostración.
         </Typography>
       </Container>
     </Box>

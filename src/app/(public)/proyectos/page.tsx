@@ -14,10 +14,10 @@ import { getProyectos } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Proyectos — Imperio",
+  title: "Proyectos — Vidriería Demo",
 };
 
-const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/aluminioyvidriosimperio";
+const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";
 
 export default async function ProyectosPage() {
   const proyectos = await getProyectos();
@@ -44,7 +44,7 @@ export default async function ProyectosPage() {
         </Button>
       </Stack>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 5 }}>
-        Una muestra de trabajos realizados por Imperio.
+        Una muestra de trabajos realizados.
       </Typography>
 
       {proyectos.length === 0 ? (
