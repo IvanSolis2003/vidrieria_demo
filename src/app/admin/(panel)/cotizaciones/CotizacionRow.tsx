@@ -11,7 +11,10 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
-import { cambiarEstado } from "../../actions";
+import Button from "@mui/material/Button";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useRouter } from "next/navigation";
+import { cambiarEstado, eliminarCotizacion } from "../../actions";
 
 type Props = {
   id: string;
@@ -32,12 +35,21 @@ const colores: Record<string, "error" | "warning" | "success"> = {
 };
 
 export default function CotizacionRow(p: Props) {
+  const router = useRouter();
   const [estado, setEstado] = useState(p.estado);
   const [pending, startTransition] = useTransition();
 
   function onCambio(nuevo: string) {
     setEstado(nuevo);
     startTransition(() => cambiarEstado(p.id, nuevo));
+  }
+
+  function borrar() {
+    if (!confirm(`Eliminar la cotizacion de ${p.nombre}?`)) return;
+    startTransition(async () => {
+      await eliminarCotizacion(p.id);
+      router.refresh();
+    });
   }
 
   return (
@@ -81,7 +93,7 @@ export default function CotizacionRow(p: Props) {
           )}
         </Box>
 
-        <Box sx={{ minWidth: 180 }}>
+        <Stack spacing={1} sx={{ minWidth: 180 }}>
           <FormControl fullWidth size="small" disabled={pending}>
             <InputLabel id={`estado-${p.id}`}>Estado</InputLabel>
             <Select
@@ -95,7 +107,16 @@ export default function CotizacionRow(p: Props) {
               <MenuItem value="cerrada">Cerrada</MenuItem>
             </Select>
           </FormControl>
-        </Box>
+          <Button
+            size="small"
+            color="error"
+            startIcon={<DeleteOutlineIcon />}
+            onClick={borrar}
+            disabled={pending}
+          >
+            Eliminar
+          </Button>
+        </Stack>
       </Stack>
     </Paper>
   );

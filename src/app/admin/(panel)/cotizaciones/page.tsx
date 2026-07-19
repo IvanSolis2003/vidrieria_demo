@@ -1,8 +1,7 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
 import { prisma } from "@/lib/prisma";
-import CotizacionRow from "./CotizacionRow";
+import CotizacionesLista from "./CotizacionesLista";
 
 export const dynamic = "force-dynamic";
 
@@ -33,28 +32,25 @@ export default async function CotizacionesPage() {
         Cotizaciones
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        Ordenadas por fecha, las nuevas primero. Cambia el estado con el selector.
+        Ordenadas por fecha, las nuevas primero. Filtra por estado o busca por nombre.
       </Typography>
 
       {cotizaciones.length === 0 ? (
         <Typography color="text.secondary">Todavia no hay cotizaciones.</Typography>
       ) : (
-        <Stack spacing={2}>
-          {cotizaciones.map((c) => (
-            <CotizacionRow
-              key={c.id}
-              id={c.id}
-              nombre={c.nombre}
-              telefono={c.telefono}
-              comuna={c.comuna}
-              categoria={mapa.get(c.categoriaId) ?? "Sin categoria"}
-              estado={c.estado}
-              createdAt={new Date(c.createdAt).toLocaleDateString("es-CL")}
-              vanos={(c.vanos as Vano[]) ?? []}
-              imagenes={c.imagenes.map((i) => i.url)}
-            />
-          ))}
-        </Stack>
+        <CotizacionesLista
+          cotizaciones={cotizaciones.map((c) => ({
+            id: c.id,
+            nombre: c.nombre,
+            telefono: c.telefono,
+            comuna: c.comuna,
+            categoria: mapa.get(c.categoriaId) ?? "Sin categoria",
+            estado: c.estado,
+            createdAt: new Date(c.createdAt).toLocaleDateString("es-CL"),
+            vanos: (c.vanos as Vano[]) ?? [],
+            imagenes: c.imagenes.map((i) => i.url),
+          }))}
+        />
       )}
     </Container>
   );

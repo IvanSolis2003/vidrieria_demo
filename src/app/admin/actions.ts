@@ -1,12 +1,23 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { auth, signOut } from "@/auth";
 
 async function requireAdmin() {
   const session = await auth();
   if (!session?.user) throw new Error("No autorizado");
+  return session;
+}
+
+function slugify(texto: string) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 const estadosValidos = ["nueva", "contactado", "cerrada"];
@@ -16,6 +27,13 @@ export async function cambiarEstado(id: string, estado: string) {
   if (!estadosValidos.includes(estado)) return;
   await prisma.cotizacion.update({ where: { id }, data: { estado } });
   revalidatePath("/admin/cotizaciones");
+}
+
+export async function eliminarCotizacion(id: string) {
+  await requireAdmin();
+  await prisma.cotizacion.delete({ where: { id } });
+  revalidatePath("/admin/cotizaciones");
+  revalidatePath("/admin");
 }
 
 export async function crearProyecto(data: {
@@ -79,6 +97,85 @@ export async function actualizarProducto(
   });
   revalidatePath("/admin/productos");
   revalidatePath("/productos");
+}
+
+export async function crearCategoria(data: {
+  nombre: string;
+  descripcion: string;
+  imagenUrl: string;
+}) {
+  await requireAdmin();
+  if (!data.nombre.trim()) return;
+  let slug = slugify(data.nombre);
+  if (!slug) slug = `categoria-${Date.now()}`;
+  const existe = await prisma.categoria.findUnique({ where: { slug } });
+  if (existe) slug = `${slug}-${Date.now()}`;
+  await prisma.categoria.create({
+    data: {
+      nombre: data.nombre,
+      slug,
+      descripcion: data.descripcion || null,
+      imagenUrl: data.imagenUrl || null,
+    },
+  });
+  revalidatePath("/admin/productos");
+  revalidatePath("/productos");
+  revalidatePath("/");
+}
+
+export async function eliminarCategoria(id: string) {
+  await requireAdmin();
+  await prisma.categoria.delete({ where: { id } });
+  revalidatePath("/admin/productos");
+  revalidatePath("/productos");
+  revalidatePath("/");
+}
+
+export async function crearProducto(data: {
+  categoriaId: string;
+  nombre: string;
+  descripcion: string;
+}) {
+  await requireAdmin();
+  if (!data.categoriaId || !data.nombre.trim()) return;
+  await prisma.producto.create({
+    data: {
+      categoriaId: data.categoriaId,
+      nombre: data.nombre,
+      descripcion: data.descripcion || null,
+    },
+  });
+  revalidatePath("/admin/productos");
+  revalidatePath("/productos");
+}
+
+export async function eliminarProducto(id: string) {
+  await requireAdmin();
+  await prisma.producto.delete({ where: { id } });
+  revalidatePath("/admin/productos");
+  revalidatePath("/productos");
+}
+
+export async function cambiarPassword(data: {
+  actual: string;
+  nueva: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const session = await requireAdmin();
+  const email = session.user?.email;
+  if (!email) return { ok: false, error: "Sesion invalida." };
+  if (data.nueva.length < 6) {
+    return { ok: false, error: "La nueva contrasena debe tener al menos 6 caracteres." };
+  }
+
+  const user = await prisma.adminUser.findUnique({ where: { email } });
+  if (!user) return { ok: false, error: "Usuario no encontrado." };
+
+  const ok = await bcrypt.compare(data.actual, user.passwordHash);
+  if (!ok) return { ok: false, error: "La contrasena actual es incorrecta." };
+
+  const passwordHash = await bcrypt.hash(data.nueva, 10);
+  await prisma.adminUser.update({ where: { email }, data: { passwordHash } });
+  return { ok: true };
 }
 
 export async function cerrarSesion() {

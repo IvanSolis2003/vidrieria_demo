@@ -14,6 +14,7 @@ const links = [
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
   { href: "/admin/proyectos", label: "Proyectos" },
   { href: "/admin/productos", label: "Productos" },
+  { href: "/admin/cuenta", label: "Mi cuenta" },
 ];
 
 export default function AdminNav() {
