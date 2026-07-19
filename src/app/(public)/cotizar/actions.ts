@@ -9,7 +9,14 @@ type Resultado =
   | { ok: true; whatsappUrl: string }
   | { ok: false; error: string };
 
-export async function crearCotizacion(data: CotizacionInput): Promise<Resultado> {
+export async function crearCotizacion(
+  data: CotizacionInput,
+  honeypot?: string,
+): Promise<Resultado> {
+  if (honeypot && honeypot.trim() !== "") {
+    return { ok: true, whatsappUrl: linkWhatsApp() };
+  }
+
   const parsed = cotizacionSchema.safeParse(data);
   if (!parsed.success) {
     return { ok: false, error: "Datos invalidos. Revisa el formulario." };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upload } from "@vercel/blob/client";
@@ -78,6 +78,7 @@ export default function Cotizador({
   const [enviando, setEnviando] = useState(false);
   const [errorEnvio, setErrorEnvio] = useState<string | null>(null);
   const [exito, setExito] = useState<string | null>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const categoriaId = watch("categoriaId");
   const imagenes = watch("imagenes");
@@ -138,7 +139,7 @@ export default function Cotizador({
   async function onSubmit(data: CotizacionInput) {
     setEnviando(true);
     setErrorEnvio(null);
-    const res = await crearCotizacion(data);
+    const res = await crearCotizacion(data, honeypotRef.current?.value ?? "");
     setEnviando(false);
     if (res.ok) {
       setExito(res.whatsappUrl);
@@ -192,6 +193,15 @@ export default function Cotizador({
       </Stepper>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <input
+          ref={honeypotRef}
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+        />
         {paso === 0 && (
           <>
             <Typography variant="h6" sx={{ mb: 2 }}>
