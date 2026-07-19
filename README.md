@@ -55,6 +55,15 @@ Ver [.env.example](.env.example). Necesitas cuentas gratuitas en:
 - `/cotizar` — Cotizador (stepper de 5 pasos)
 - `/admin` — Panel protegido (cotizaciones + CRUD)
 
+## Acceso al panel
+
+El seed crea un usuario administrador inicial:
+
+- **Email:** `admin@imperio.cl`
+- **Contraseña:** `imperio123`
+
+Cámbialos en producción (edita `prisma/seed.ts` o la tabla `AdminUser`).
+
 ## Plan de implementación
 
 Ver [PLAN-IMPLEMENTACION-DEMO.md](PLAN-IMPLEMENTACION-DEMO.md).
