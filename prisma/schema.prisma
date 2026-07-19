@@ -57,3 +57,23 @@ model AdminUser {
   email        String @unique
   passwordHash String
 }
+
+model Testimonio {
+  id        String   @id @default(cuid())
+  nombre    String
+  comuna    String?
+  servicio  String?
+  rating    Int      @default(5)
+  texto     String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model SiteContent {
+  id               String @id @default("main")
+  nosotrosIntro    String @db.Text
+  aniosExperiencia String
+  proyectos        String
+  coberturaZona    String
+  garantia         String
+  coberturaTexto   String @db.Text
+}

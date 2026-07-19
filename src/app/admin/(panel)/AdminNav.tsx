@@ -14,6 +14,8 @@ const links = [
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
   { href: "/admin/proyectos", label: "Proyectos" },
   { href: "/admin/productos", label: "Productos" },
+  { href: "/admin/testimonios", label: "Testimonios" },
+  { href: "/admin/nosotros", label: "Nosotros" },
   { href: "/admin/cuenta", label: "Mi cuenta" },
 ];
 

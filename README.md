@@ -51,6 +51,7 @@ Ver [.env.example](.env.example). Necesitas cuentas gratuitas en:
 - `/` — Home
 - `/productos` — Productos y servicios
 - `/proyectos` — Galería de obras
+- `/nosotros` — Nosotros (experiencia, cobertura, garantía) + testimonios
 - `/contacto` — Datos de contacto
 - `/cotizar` — Cotizador (stepper de 5 pasos)
 - `/admin` — Panel protegido (cotizaciones + CRUD)

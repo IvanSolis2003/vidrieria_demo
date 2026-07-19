@@ -10,16 +10,18 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CategoriaCard from "@/components/CategoriaCard";
-import { getCategorias, getProyectos } from "@/lib/data";
+import Testimonios from "@/components/Testimonios";
+import { getCategorias, getProyectos, getTestimonios } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 const marcas = ["Veratec", "Winhouse", "Vidrios templados", "Termopanel DVH"];
 
 export default async function Home() {
-  const [categorias, proyectos] = await Promise.all([
+  const [categorias, proyectos, testimonios] = await Promise.all([
     getCategorias(),
     getProyectos(true),
+    getTestimonios(),
   ]);
 
   return (
@@ -137,6 +139,18 @@ export default async function Home() {
             </Grid>
           </Container>
         </Box>
+      )}
+
+      {testimonios.length > 0 && (
+        <Container maxWidth="lg" sx={{ py: 8 }}>
+          <Typography variant="h4" sx={{ mb: 1 }}>
+            Lo que dicen nuestros clientes
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+            Clientes de Talca y la Región del Maule que ya confiaron en nosotros.
+          </Typography>
+          <Testimonios testimonios={testimonios.slice(0, 3)} />
+        </Container>
       )}
     </>
   );

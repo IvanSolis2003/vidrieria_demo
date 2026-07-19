@@ -178,6 +178,74 @@ export async function cambiarPassword(data: {
   return { ok: true };
 }
 
+type TestimonioData = {
+  nombre: string;
+  comuna: string;
+  servicio: string;
+  rating: number;
+  texto: string;
+};
+
+export async function crearTestimonio(data: TestimonioData) {
+  await requireAdmin();
+  if (!data.nombre.trim() || !data.texto.trim()) return;
+  await prisma.testimonio.create({
+    data: {
+      nombre: data.nombre,
+      comuna: data.comuna || null,
+      servicio: data.servicio || null,
+      rating: Math.min(5, Math.max(1, data.rating)),
+      texto: data.texto,
+    },
+  });
+  revalidatePath("/admin/testimonios");
+  revalidatePath("/nosotros");
+  revalidatePath("/");
+}
+
+export async function actualizarTestimonio(id: string, data: TestimonioData) {
+  await requireAdmin();
+  await prisma.testimonio.update({
+    where: { id },
+    data: {
+      nombre: data.nombre,
+      comuna: data.comuna || null,
+      servicio: data.servicio || null,
+      rating: Math.min(5, Math.max(1, data.rating)),
+      texto: data.texto,
+    },
+  });
+  revalidatePath("/admin/testimonios");
+  revalidatePath("/nosotros");
+  revalidatePath("/");
+}
+
+export async function eliminarTestimonio(id: string) {
+  await requireAdmin();
+  await prisma.testimonio.delete({ where: { id } });
+  revalidatePath("/admin/testimonios");
+  revalidatePath("/nosotros");
+  revalidatePath("/");
+}
+
+export async function actualizarContenido(data: {
+  nosotrosIntro: string;
+  aniosExperiencia: string;
+  proyectos: string;
+  coberturaZona: string;
+  garantia: string;
+  coberturaTexto: string;
+}) {
+  await requireAdmin();
+  await prisma.siteContent.upsert({
+    where: { id: "main" },
+    update: data,
+    create: { id: "main", ...data },
+  });
+  revalidatePath("/admin/nosotros");
+  revalidatePath("/nosotros");
+}
+
 export async function cerrarSesion() {
   await signOut({ redirectTo: "/admin/login" });
 }

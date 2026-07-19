@@ -1,7 +1,59 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { contenidoDefault } from "../src/lib/contenido";
 
 const prisma = new PrismaClient();
+
+const testimonios = [
+  {
+    nombre: "Carolina M.",
+    comuna: "Talca",
+    servicio: "Ventanas PVC",
+    rating: 5,
+    texto:
+      "Cambiamos todas las ventanas de la casa a PVC y se nota muchisimo el silencio y el calor que se mantiene. El equipo fue puntual y ordenado.",
+  },
+  {
+    nombre: "Rodrigo S.",
+    comuna: "Curico",
+    servicio: "Termopanel",
+    rating: 5,
+    texto:
+      "Excelente asesoria con el termopanel. Me explicaron las opciones sin apuro y el resultado quedo impecable. Totalmente recomendables.",
+  },
+  {
+    nombre: "Fernanda P.",
+    comuna: "San Clemente",
+    servicio: "Shower door",
+    rating: 5,
+    texto:
+      "Instalaron el shower door del bano principal en una manana. Muy prolijos y el vidrio quedo perfecto. Volveria a contratarlos.",
+  },
+  {
+    nombre: "Jorge V.",
+    comuna: "Linares",
+    servicio: "Vidrios dimensionados",
+    rating: 4,
+    texto:
+      "Necesitaba vidrios templados a medida para la cocina y los tuvieron listos rapido. Buen precio y buena atencion.",
+  },
+  {
+    nombre: "Marcela A.",
+    comuna: "Maule",
+    servicio: "Cierre de terraza",
+    rating: 5,
+    texto:
+      "Nos cerraron la terraza en aluminio y vidrio y ganamos un espacio nuevo en la casa. Cumplieron los plazos tal cual.",
+  },
+  {
+    nombre: "Patricio L.",
+    comuna: "Talca",
+    servicio: "Ventanas PVC",
+    rating: 5,
+    texto:
+      "Cotizacion clara desde el principio, sin sorpresas. La instalacion fue limpia y quedaron atentos ante cualquier duda.",
+  },
+];
 
 const img = (id: string) =>
   `https://images.unsplash.com/photo-${id}?w=900&q=80&auto=format&fit=crop`;
@@ -69,6 +121,7 @@ async function main() {
   await prisma.producto.deleteMany();
   await prisma.categoria.deleteMany();
   await prisma.proyecto.deleteMany();
+  await prisma.testimonio.deleteMany();
 
   for (const c of categorias) {
     await prisma.categoria.create({
@@ -87,6 +140,16 @@ async function main() {
       data: { titulo: p.titulo, imagenUrl: img(p.seed), destacado: p.destacado },
     });
   }
+
+  for (const t of testimonios) {
+    await prisma.testimonio.create({ data: t });
+  }
+
+  await prisma.siteContent.upsert({
+    where: { id: "main" },
+    update: {},
+    create: { id: "main", ...contenidoDefault },
+  });
 
   const email = "admin@vidrieriademo.cl";
   const password = "demo1234";
