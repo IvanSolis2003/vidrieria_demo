@@ -70,6 +70,18 @@ export default function Footer() {
         <Typography variant="caption" color="#666" sx={{ display: "block", mt: 3 }}>
           © {new Date().getFullYear()} Vidriería Demo. Sitio de demostración.
         </Typography>
+        <Typography variant="caption" color="#666" sx={{ display: "block", mt: 0.5 }}>
+          Realizado por{" "}
+          <Box
+            component="a"
+            href="https://iasmtech.com"
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#aaa", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}
+          >
+            iasmtech.com
+          </Box>
+        </Typography>
       </Container>
     </Box>
   );

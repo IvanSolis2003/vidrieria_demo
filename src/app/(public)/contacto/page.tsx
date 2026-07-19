@@ -100,6 +100,25 @@ export default function ContactoPage() {
           </Paper>
         </Grid>
       </Grid>
+
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h6" gutterBottom>
+          Donde estamos
+        </Typography>
+        <Box
+          component="iframe"
+          title="Ubicacion en Talca"
+          src="https://www.google.com/maps?q=Talca,+Region+del+Maule,+Chile&output=embed"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          sx={{
+            width: "100%",
+            height: { xs: 300, md: 420 },
+            border: 0,
+            borderRadius: 2,
+          }}
+        />
+      </Box>
     </Container>
   );
 }
