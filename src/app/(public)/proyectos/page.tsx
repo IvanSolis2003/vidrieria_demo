@@ -9,7 +9,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { getProyectos } from "@/lib/data";
+import AntesDespues from "@/components/AntesDespues";
+import { getProyectos, getAntesDespues } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,10 @@ export const metadata = {
 const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";
 
 export default async function ProyectosPage() {
-  const proyectos = await getProyectos();
+  const [proyectos, antesDespues] = await Promise.all([
+    getProyectos(),
+    getAntesDespues(),
+  ]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -66,6 +70,25 @@ export default async function ProyectosPage() {
             </Grid>
           ))}
         </Grid>
+      )}
+
+      {antesDespues.length > 0 && (
+        <Box sx={{ mt: 8 }}>
+          <Typography variant="h5" gutterBottom>
+            Antes y después
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Arrastra el control sobre cada imagen para ver la transformación.
+          </Typography>
+          <AntesDespues
+            items={antesDespues.map((a) => ({
+              id: a.id,
+              titulo: a.titulo,
+              imagenAntesUrl: a.imagenAntesUrl,
+              imagenDespuesUrl: a.imagenDespuesUrl,
+            }))}
+          />
+        </Box>
       )}
 
       <Box sx={{ textAlign: "center", mt: 6 }}>

@@ -65,6 +65,7 @@ const categorias = [
     descripcion:
       "Ventanas de PVC de alta hermeticidad y aislacion termica y acustica. Perfiles Veratec y Winhouse.",
     imagenUrl: img("1493809842364-78817add7ffb"),
+    precioM2: 120000,
     productos: [
       { nombre: "Ventana corredera PVC", descripcion: "Ideal para living y dormitorios, facil operacion." },
       { nombre: "Ventana proyectante PVC", descripcion: "Apertura hacia afuera, excelente ventilacion." },
@@ -77,6 +78,7 @@ const categorias = [
     descripcion:
       "Vidrios termopanel (doble vidriado hermetico) y monolitico para todo tipo de proyecto.",
     imagenUrl: img("1600607687939-ce8a6c25118c"),
+    precioM2: 95000,
     productos: [
       { nombre: "Termopanel DVH", descripcion: "Doble vidrio con camara de aire, ahorro energetico." },
       { nombre: "Vidrio monolitico", descripcion: "Vidrio simple templado o laminado segun uso." },
@@ -88,6 +90,7 @@ const categorias = [
     descripcion:
       "Vidrios cortados a medida: templados, laminados y flotados para mesones, cubiertas y mas.",
     imagenUrl: img("1556909212-d5b604d0c90d"),
+    precioM2: 45000,
     productos: [
       { nombre: "Vidrio templado a medida", descripcion: "Resistente y seguro, cortado a tu medida." },
       { nombre: "Vidrio laminado de seguridad", descripcion: "No se desarma al romperse, ideal seguridad." },
@@ -99,6 +102,7 @@ const categorias = [
     descripcion:
       "Separadores de bano en vidrio templado con herrajes de calidad. Instalacion incluida.",
     imagenUrl: img("1584622650111-993a426fbf0a"),
+    precioM2: 85000,
     productos: [
       { nombre: "Shower door corredero", descripcion: "Sistema corredero para espacios reducidos." },
       { nombre: "Shower door abatible", descripcion: "Apertura clasica, elegante y funcional." },
@@ -122,6 +126,7 @@ async function main() {
   await prisma.categoria.deleteMany();
   await prisma.proyecto.deleteMany();
   await prisma.testimonio.deleteMany();
+  await prisma.antesDespues.deleteMany();
 
   for (const c of categorias) {
     await prisma.categoria.create({
@@ -130,6 +135,7 @@ async function main() {
         slug: c.slug,
         descripcion: c.descripcion,
         imagenUrl: c.imagenUrl,
+        precioM2: c.precioM2,
         productos: { create: c.productos },
       },
     });
@@ -143,6 +149,22 @@ async function main() {
 
   for (const t of testimonios) {
     await prisma.testimonio.create({ data: t });
+  }
+
+  const antesDespues = [
+    {
+      titulo: "Cambio de ventanas de aluminio a PVC",
+      imagenAntesUrl: img("1513694203232-719a280e022f"),
+      imagenDespuesUrl: img("1493809842364-78817add7ffb"),
+    },
+    {
+      titulo: "Renovacion de bano con shower door",
+      imagenAntesUrl: img("1584622650111-993a426fbf0a"),
+      imagenDespuesUrl: img("1620626011761-996317b8d101"),
+    },
+  ];
+  for (const a of antesDespues) {
+    await prisma.antesDespues.create({ data: a });
   }
 
   await prisma.siteContent.upsert({

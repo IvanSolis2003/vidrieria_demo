@@ -37,7 +37,27 @@ type Categoria = {
   slug: string;
   descripcion: string | null;
   imagenUrl: string | null;
+  precioM2: number | null;
 };
+
+const clp = new Intl.NumberFormat("es-CL", {
+  style: "currency",
+  currency: "CLP",
+  maximumFractionDigits: 0,
+});
+
+function estimarPrecio(vanos: { alto: number; ancho: number }[], precioM2: number | null) {
+  if (!precioM2) return null;
+  const m2 = vanos.reduce((acc, v) => acc + (v.alto * v.ancho) / 10000, 0);
+  if (m2 <= 0) return null;
+  const base = m2 * precioM2;
+  const redondear = (n: number) => Math.round(n / 1000) * 1000;
+  return {
+    m2: Math.round(m2 * 100) / 100,
+    min: redondear(base * 0.9),
+    max: redondear(base * 1.15),
+  };
+}
 
 const pasos = ["Tipo de trabajo", "Medidas", "Fotos", "Contacto", "Resumen"];
 
@@ -84,6 +104,7 @@ export default function Cotizador({
   const imagenes = watch("imagenes");
   const valores = watch();
   const categoriaSel = categorias.find((c) => c.id === categoriaId);
+  const estimacion = estimarPrecio(valores.vanos, categoriaSel?.precioM2 ?? null);
 
   const camposPorPaso: (keyof CotizacionInput)[][] = [
     ["categoriaId"],
@@ -414,6 +435,24 @@ export default function Cotizador({
               <Resumen label="Comuna" valor={valores.comuna || "-"} />
               <Resumen label="Fotos adjuntas" valor={String(imagenes.length)} />
             </Paper>
+
+            {estimacion && (
+              <Paper
+                variant="outlined"
+                sx={{ p: 3, mt: 2, borderColor: "primary.main", bgcolor: "rgba(200,16,46,0.04)" }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  Precio referencial estimado ({estimacion.m2} m² aprox.)
+                </Typography>
+                <Typography variant="h5" color="primary" sx={{ fontWeight: 800, my: 0.5 }}>
+                  {clp.format(estimacion.min)} — {clp.format(estimacion.max)}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Valor estimado según medidas. El precio final se confirma tras la visita
+                  técnica y la elección de terminaciones.
+                </Typography>
+              </Paper>
+            )}
             {errorEnvio && (
               <Alert severity="error" sx={{ mt: 2 }}>
                 {errorEnvio}

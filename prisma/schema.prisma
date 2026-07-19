@@ -13,6 +13,7 @@ model Categoria {
   slug        String     @unique
   descripcion String?
   imagenUrl   String?
+  precioM2    Int?
   productos   Producto[]
 }
 
@@ -66,6 +67,14 @@ model Testimonio {
   rating    Int      @default(5)
   texto     String   @db.Text
   createdAt DateTime @default(now())
+}
+
+model AntesDespues {
+  id             String   @id @default(cuid())
+  titulo         String
+  imagenAntesUrl String
+  imagenDespuesUrl String
+  createdAt      DateTime @default(now())
 }
 
 model SiteContent {

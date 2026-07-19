@@ -30,10 +30,17 @@ type Categoria = {
   nombre: string;
   descripcion: string | null;
   imagenUrl: string | null;
+  precioM2: number | null;
   productos: Producto[];
 };
 
-type CatForm = { id: string; nombre: string; descripcion: string; imagenUrl: string };
+type CatForm = {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  imagenUrl: string;
+  precioM2: string;
+};
 type ProdForm = { id: string; categoriaId: string; nombre: string; descripcion: string };
 
 export default function ProductosManager({ categorias }: { categorias: Categoria[] }) {
@@ -44,18 +51,22 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
 
   function guardarCat() {
     if (!cat || !cat.nombre.trim()) return;
+    const precio = cat.precioM2.trim() === "" ? null : Number(cat.precioM2);
+    const precioM2 = precio !== null && !Number.isNaN(precio) && precio > 0 ? precio : null;
     startTransition(async () => {
       if (cat.id) {
         await actualizarCategoria(cat.id, {
           nombre: cat.nombre,
           descripcion: cat.descripcion,
           imagenUrl: cat.imagenUrl,
+          precioM2,
         });
       } else {
         await crearCategoria({
           nombre: cat.nombre,
           descripcion: cat.descripcion,
           imagenUrl: cat.imagenUrl,
+          precioM2,
         });
       }
       setCat(null);
@@ -102,7 +113,7 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
         startIcon={<AddIcon />}
         variant="contained"
         sx={{ mb: 3 }}
-        onClick={() => setCat({ id: "", nombre: "", descripcion: "", imagenUrl: "" })}
+        onClick={() => setCat({ id: "", nombre: "", descripcion: "", imagenUrl: "", precioM2: "" })}
       >
         Nueva categoria
       </Button>
@@ -126,6 +137,7 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
                       nombre: c.nombre,
                       descripcion: c.descripcion ?? "",
                       imagenUrl: c.imagenUrl ?? "",
+                      precioM2: c.precioM2 != null ? String(c.precioM2) : "",
                     })
                   }
                 >
@@ -206,6 +218,14 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
                 fullWidth
                 multiline
                 minRows={2}
+              />
+              <TextField
+                label="Precio por m² (CLP)"
+                type="number"
+                value={cat.precioM2}
+                onChange={(e) => setCat({ ...cat, precioM2: e.target.value })}
+                fullWidth
+                helperText="Usado para el precio estimado del cotizador. Dejar vacío para no mostrarlo."
               />
               <SubirImagen value={cat.imagenUrl} onChange={(url) => setCat({ ...cat, imagenUrl: url })} />
             </Stack>

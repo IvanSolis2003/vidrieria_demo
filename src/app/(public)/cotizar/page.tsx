@@ -36,6 +36,7 @@ export default async function CotizarPage({
     slug: c.slug,
     descripcion: c.descripcion,
     imagenUrl: c.imagenUrl,
+    precioM2: c.precioM2,
   }));
 
   return <Cotizador categorias={simples} categoriaInicial={categoria} />;

@@ -22,6 +22,7 @@ export default async function ProductosAdminPage() {
           nombre: c.nombre,
           descripcion: c.descripcion,
           imagenUrl: c.imagenUrl,
+          precioM2: c.precioM2,
           productos: c.productos.map((p) => ({
             id: p.id,
             nombre: p.nombre,

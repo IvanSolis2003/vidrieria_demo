@@ -70,7 +70,7 @@ export async function eliminarProyecto(id: string) {
 
 export async function actualizarCategoria(
   id: string,
-  data: { nombre: string; descripcion: string; imagenUrl: string },
+  data: { nombre: string; descripcion: string; imagenUrl: string; precioM2: number | null },
 ) {
   await requireAdmin();
   await prisma.categoria.update({
@@ -79,10 +79,12 @@ export async function actualizarCategoria(
       nombre: data.nombre,
       descripcion: data.descripcion || null,
       imagenUrl: data.imagenUrl || null,
+      precioM2: data.precioM2,
     },
   });
   revalidatePath("/admin/productos");
   revalidatePath("/productos");
+  revalidatePath("/cotizar");
   revalidatePath("/");
 }
 
@@ -103,6 +105,7 @@ export async function crearCategoria(data: {
   nombre: string;
   descripcion: string;
   imagenUrl: string;
+  precioM2: number | null;
 }) {
   await requireAdmin();
   if (!data.nombre.trim()) return;
@@ -116,10 +119,12 @@ export async function crearCategoria(data: {
       slug,
       descripcion: data.descripcion || null,
       imagenUrl: data.imagenUrl || null,
+      precioM2: data.precioM2,
     },
   });
   revalidatePath("/admin/productos");
   revalidatePath("/productos");
+  revalidatePath("/cotizar");
   revalidatePath("/");
 }
 
@@ -226,6 +231,34 @@ export async function eliminarTestimonio(id: string) {
   revalidatePath("/admin/testimonios");
   revalidatePath("/nosotros");
   revalidatePath("/");
+}
+
+type AntesDespuesData = {
+  titulo: string;
+  imagenAntesUrl: string;
+  imagenDespuesUrl: string;
+};
+
+export async function crearAntesDespues(data: AntesDespuesData) {
+  await requireAdmin();
+  if (!data.titulo.trim() || !data.imagenAntesUrl || !data.imagenDespuesUrl) return;
+  await prisma.antesDespues.create({ data });
+  revalidatePath("/admin/antes-despues");
+  revalidatePath("/proyectos");
+}
+
+export async function actualizarAntesDespues(id: string, data: AntesDespuesData) {
+  await requireAdmin();
+  await prisma.antesDespues.update({ where: { id }, data });
+  revalidatePath("/admin/antes-despues");
+  revalidatePath("/proyectos");
+}
+
+export async function eliminarAntesDespues(id: string) {
+  await requireAdmin();
+  await prisma.antesDespues.delete({ where: { id } });
+  revalidatePath("/admin/antes-despues");
+  revalidatePath("/proyectos");
 }
 
 export async function actualizarContenido(data: {

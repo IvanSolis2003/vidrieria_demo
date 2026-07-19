@@ -13,6 +13,7 @@ import { cerrarSesion } from "../actions";
 const links = [
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
   { href: "/admin/proyectos", label: "Proyectos" },
+  { href: "/admin/antes-despues", label: "Antes/Después" },
   { href: "/admin/productos", label: "Productos" },
   { href: "/admin/testimonios", label: "Testimonios" },
   { href: "/admin/nosotros", label: "Nosotros" },
