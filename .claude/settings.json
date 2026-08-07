@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(curl -s http://localhost:3000/sitemap.xml)",
-      "Bash(node check-csv.js)"
-    ]
-  }
-}
