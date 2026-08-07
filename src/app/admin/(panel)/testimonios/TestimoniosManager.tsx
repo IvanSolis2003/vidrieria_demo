@@ -130,7 +130,7 @@ export default function TestimoniosManager({ testimonios }: { testimonios: Testi
                 onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                 fullWidth
               />
-              <Stack direction="row" spacing={2}>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                 <TextField
                   label="Comuna"
                   value={form.comuna}

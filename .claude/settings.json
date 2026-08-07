@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chromium-cli --help)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npx --no-install playwright install chromium --with-deps)",
+      "Bash(npx -y playwright@1.62.1 install chromium)",
+      "Bash(mkdir -p C:/Users/sweva/AppData/Local/Temp/claude/c--Proyectos-Vidrieria-demo/bcc9cf08-2513-4060-94d9-4837234c4a0e/scratchpad/pw-test)",
+      "Bash(npm init *)"
+    ]
+  }
+}

@@ -127,7 +127,12 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
       <Stack spacing={3}>
         {categorias.map((c) => (
           <Paper key={c.id} sx={{ p: 3 }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              justifyContent="space-between"
+              alignItems={{ xs: "stretch", sm: "flex-start" }}
+              spacing={2}
+            >
               <Box>
                 <Typography variant="h6">{c.nombre}</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -162,10 +167,10 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
               {c.productos.map((p) => (
                 <Stack
                   key={p.id}
-                  direction="row"
+                  direction={{ xs: "column", sm: "row" }}
                   justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
+                  alignItems={{ xs: "stretch", sm: "center" }}
+                  spacing={1}
                 >
                   <Box>
                     <Typography variant="subtitle2">{p.nombre}</Typography>

@@ -36,7 +36,7 @@ export default function CuentaForm({ email }: { email: string }) {
   }
 
   return (
-    <Paper sx={{ p: 4, maxWidth: 460 }}>
+    <Paper sx={{ p: { xs: 2.5, sm: 4 }, maxWidth: 460 }}>
       <Stack spacing={1} sx={{ mb: 2 }}>
         <TextField label="Usuario" value={email} fullWidth disabled />
       </Stack>

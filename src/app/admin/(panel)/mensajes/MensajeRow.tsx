@@ -44,7 +44,7 @@ export default function MensajeRow(p: Props) {
     <Paper sx={{ p: 2.5, opacity: leido ? 0.7 : 1 }}>
       <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" spacing={2}>
         <Box sx={{ flexGrow: 1 }}>
-          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+          <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap sx={{ mb: 0.5 }}>
             <Typography variant="h6">{p.nombre}</Typography>
             <Chip size="small" label={p.tipoConsulta} color="primary" variant="outlined" />
             {!leido && <Chip size="small" label="Nuevo" color="error" />}

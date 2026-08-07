@@ -100,7 +100,7 @@ export default function CotizacionRow(p: Props) {
           )}
         </Box>
 
-        <Stack spacing={1} sx={{ minWidth: 180 }}>
+        <Stack spacing={1} sx={{ minWidth: { xs: "100%", md: 180 } }}>
           <FormControl fullWidth size="small" disabled={pending}>
             <InputLabel id={`estado-${p.id}`}>Estado</InputLabel>
             <Select

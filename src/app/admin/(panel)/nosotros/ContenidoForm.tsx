@@ -39,7 +39,7 @@ export default function ContenidoForm({ contenido }: { contenido: Contenido }) {
   }
 
   return (
-    <Paper sx={{ p: 4, maxWidth: 720 }}>
+    <Paper sx={{ p: { xs: 2.5, sm: 4 }, maxWidth: 720 }}>
       <Stack component="form" spacing={2.5} onSubmit={onSubmit}>
         <TextField
           label="Texto de presentación"
