@@ -18,7 +18,7 @@ Ver `prisma/schema.prisma`.
 
 ## 3. WhatsApp
 
-- Botón flotante fijo en todas las páginas → `https://wa.me/56986001008`.
+- Botón flotante fijo en todas las páginas → `https://wa.me/<NEXT_PUBLIC_WHATSAPP>`.
 - Al completar el cotizador se guarda en Neon y se genera link de WhatsApp con el resumen.
 - Notificación paralela a Imperio por correo vía Resend.
 

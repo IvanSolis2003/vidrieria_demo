@@ -1,4 +1,4 @@
-const numero = process.env.NEXT_PUBLIC_WHATSAPP ?? "56900000000";
+const numero = process.env.NEXT_PUBLIC_WHATSAPP ?? "56953074204";
 
 export function linkWhatsApp(mensaje?: string): string {
   const base = `https://wa.me/${numero}`;
