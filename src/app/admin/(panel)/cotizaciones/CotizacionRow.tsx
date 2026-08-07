@@ -22,6 +22,7 @@ type Props = {
   telefono: string;
   comuna: string | null;
   categoria: string;
+  detalle: string | null;
   estado: string;
   createdAt: string;
   vanos: { alto: number; ancho: number }[];
@@ -73,10 +74,16 @@ export default function CotizacionRow(p: Props) {
               {p.telefono}
             </Link>
           </Typography>
-          <Typography variant="body2" sx={{ mt: 0.5 }}>
-            Medidas:{" "}
-            {p.vanos.map((v) => `${v.alto}x${v.ancho}`).join(", ")} cm
-          </Typography>
+          {p.detalle ? (
+            <Typography variant="body2" sx={{ mt: 0.5, whiteSpace: "pre-wrap" }}>
+              Detalle: {p.detalle}
+            </Typography>
+          ) : (
+            <Typography variant="body2" sx={{ mt: 0.5 }}>
+              Medidas:{" "}
+              {p.vanos.map((v) => `${v.alto}x${v.ancho}`).join(", ")} cm
+            </Typography>
+          )}
 
           {p.imagenes.length > 0 && (
             <Stack direction="row" spacing={1} sx={{ mt: 1.5 }} flexWrap="wrap" useFlexGap>

@@ -27,7 +27,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import { cotizacionSchema, type CotizacionInput } from "@/lib/schemas";
+import { cotizacionSchema, OTRO_ID, type CotizacionInput } from "@/lib/schemas";
 import { comprimirAWebp } from "@/lib/comprimir";
 import { crearCotizacion } from "./actions";
 
@@ -62,6 +62,16 @@ function estimarPrecio(vanos: { alto: number; ancho: number }[], precioM2: numbe
 
 const pasos = ["Tipo de trabajo", "Medidas", "Fotos", "Contacto", "Resumen"];
 
+const opcionOtro: Categoria = {
+  id: OTRO_ID,
+  nombre: "Otro / Personalizado",
+  slug: OTRO_ID,
+  descripcion: "¿Necesitas algo distinto? Cuéntanos y te asesoramos.",
+  imagenUrl: null,
+  precioM2: null,
+  colores: null,
+};
+
 export default function Cotizador({
   categorias,
   categoriaInicial,
@@ -84,6 +94,7 @@ export default function Cotizador({
     defaultValues: {
       categoriaId: inicial?.id ?? "",
       vanos: [{ alto: 0, ancho: 0 }],
+      detalle: "",
       imagenes: [],
       nombre: "",
       telefono: "",
@@ -104,12 +115,14 @@ export default function Cotizador({
   const categoriaId = watch("categoriaId");
   const imagenes = watch("imagenes");
   const valores = watch();
-  const categoriaSel = categorias.find((c) => c.id === categoriaId);
-  const estimacion = estimarPrecio(valores.vanos, categoriaSel?.precioM2 ?? null);
+  const categoriasConOtro = [...categorias, opcionOtro];
+  const categoriaSel = categoriasConOtro.find((c) => c.id === categoriaId);
+  const esOtro = categoriaId === OTRO_ID;
+  const estimacion = esOtro ? null : estimarPrecio(valores.vanos, categoriaSel?.precioM2 ?? null);
 
   const camposPorPaso: (keyof CotizacionInput)[][] = [
     ["categoriaId"],
-    ["vanos"],
+    ["vanos", "detalle"],
     [],
     ["nombre", "telefono"],
     [],
@@ -234,7 +247,7 @@ export default function Cotizador({
               name="categoriaId"
               render={({ field }) => (
                 <Grid container spacing={2}>
-                  {categorias.map((c) => (
+                  {categoriasConOtro.map((c) => (
                     <Grid key={c.id} size={{ xs: 12, sm: 6 }}>
                       <Card
                         variant="outlined"
@@ -275,7 +288,34 @@ export default function Cotizador({
           </>
         )}
 
-        {paso === 1 && (
+        {paso === 1 && esOtro && (
+          <>
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Cuéntanos qué necesitas
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Describe el trabajo que quieres cotizar: qué es, dónde va, medidas aproximadas
+              si las tienes, y cualquier detalle que nos ayude a asesorarte.
+            </Typography>
+            <Controller
+              control={control}
+              name="detalle"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Detalle de tu proyecto"
+                  fullWidth
+                  multiline
+                  minRows={5}
+                  error={!!errors.detalle}
+                  helperText={errors.detalle?.message}
+                />
+              )}
+            />
+          </>
+        )}
+
+        {paso === 1 && !esOtro && (
           <>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Medidas de cada vano (en centimetros)
@@ -427,14 +467,27 @@ export default function Cotizador({
             <Paper variant="outlined" sx={{ p: 3 }}>
               <Resumen label="Tipo de trabajo" valor={categoriaSel?.nombre ?? "-"} />
               <Divider sx={{ my: 1.5 }} />
-              <Typography variant="body2" color="text.secondary">
-                Medidas
-              </Typography>
-              {valores.vanos.map((v, i) => (
-                <Typography key={i} variant="body1">
-                  {i + 1}. {v.alto} x {v.ancho} cm
-                </Typography>
-              ))}
+              {esOtro ? (
+                <>
+                  <Typography variant="body2" color="text.secondary">
+                    Detalle
+                  </Typography>
+                  <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                    {valores.detalle}
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="body2" color="text.secondary">
+                    Medidas
+                  </Typography>
+                  {valores.vanos.map((v, i) => (
+                    <Typography key={i} variant="body1">
+                      {i + 1}. {v.alto} x {v.ancho} cm
+                    </Typography>
+                  ))}
+                </>
+              )}
               <Divider sx={{ my: 1.5 }} />
               <Resumen label="Nombre" valor={valores.nombre} />
               <Resumen label="Telefono" valor={valores.telefono} />

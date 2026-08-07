@@ -18,6 +18,7 @@ type Cotizacion = {
   telefono: string;
   comuna: string | null;
   categoria: string;
+  detalle: string | null;
   estado: string;
   createdAt: string;
   vanos: { alto: number; ancho: number }[];

@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { cotizacionSchema, type CotizacionInput } from "@/lib/schemas";
+import { cotizacionSchema, OTRO_ID, type CotizacionInput } from "@/lib/schemas";
 import { notificarCotizacion } from "@/lib/resend";
 import { linkWhatsApp } from "@/lib/whatsapp";
 
@@ -22,19 +22,26 @@ export async function crearCotizacion(
     return { ok: false, error: "Datos invalidos. Revisa el formulario." };
   }
   const d = parsed.data;
+  const esOtro = d.categoriaId === OTRO_ID;
 
   try {
-    const categoria = await prisma.categoria.findUnique({
-      where: { id: d.categoriaId },
-    });
-    if (!categoria) {
-      return { ok: false, error: "La categoria seleccionada no existe." };
+    let nombreCategoria = "Otro / Personalizado";
+
+    if (!esOtro) {
+      const categoria = await prisma.categoria.findUnique({
+        where: { id: d.categoriaId },
+      });
+      if (!categoria) {
+        return { ok: false, error: "La categoria seleccionada no existe." };
+      }
+      nombreCategoria = categoria.nombre;
     }
 
     await prisma.cotizacion.create({
       data: {
-        categoriaId: d.categoriaId,
-        vanos: d.vanos,
+        categoriaId: esOtro ? null : d.categoriaId,
+        detalle: esOtro ? d.detalle : null,
+        vanos: esOtro ? [] : d.vanos,
         nombre: d.nombre,
         telefono: d.telefono,
         comuna: d.comuna || null,
@@ -48,15 +55,16 @@ export async function crearCotizacion(
       nombre: d.nombre,
       telefono: d.telefono,
       comuna: d.comuna,
-      categoria: categoria.nombre,
-      vanos: d.vanos,
+      categoria: nombreCategoria,
+      vanos: esOtro ? [] : d.vanos,
+      detalle: esOtro ? d.detalle : null,
       imagenes: d.imagenes,
     });
 
-    const medidas = d.vanos
-      .map((v, i) => `${i + 1}) ${v.alto}x${v.ancho} cm`)
-      .join(", ");
-    const mensaje = `Hola! Soy ${d.nombre}. Quiero cotizar: ${categoria.nombre}. Medidas: ${medidas}. Comuna: ${d.comuna || "-"}. Telefono: ${d.telefono}.`;
+    const medidas = esOtro
+      ? d.detalle
+      : d.vanos.map((v, i) => `${i + 1}) ${v.alto}x${v.ancho} cm`).join(", ");
+    const mensaje = `Hola! Soy ${d.nombre}. Quiero cotizar: ${nombreCategoria}. ${esOtro ? "Detalle" : "Medidas"}: ${medidas}. Comuna: ${d.comuna || "-"}. Telefono: ${d.telefono}.`;
 
     return { ok: true, whatsappUrl: linkWhatsApp(mensaje) };
   } catch (e) {

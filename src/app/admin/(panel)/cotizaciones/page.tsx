@@ -44,7 +44,10 @@ export default async function CotizacionesPage() {
             nombre: c.nombre,
             telefono: c.telefono,
             comuna: c.comuna,
-            categoria: mapa.get(c.categoriaId) ?? "Sin categoria",
+            categoria: c.categoriaId
+              ? mapa.get(c.categoriaId) ?? "Sin categoria"
+              : "Otro / Personalizado",
+            detalle: c.detalle,
             estado: c.estado,
             createdAt: new Date(c.createdAt).toLocaleDateString("es-CL"),
             vanos: (c.vanos as Vano[]) ?? [],

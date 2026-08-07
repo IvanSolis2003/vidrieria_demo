@@ -29,7 +29,8 @@ model Producto {
 
 model Cotizacion {
   id          String             @id @default(cuid())
-  categoriaId String
+  categoriaId String?
+  detalle     String?            @db.Text
   vanos       Json
   nombre      String
   telefono    String

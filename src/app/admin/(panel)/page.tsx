@@ -50,7 +50,9 @@ async function cargar(): Promise<Metricas> {
       const d = new Date(c.createdAt);
       const idx = indice.get(`${d.getFullYear()}-${d.getMonth()}`);
       if (idx !== undefined) buckets[idx].valor++;
-      const nombre = nombreCat.get(c.categoriaId) ?? "Sin categoria";
+      const nombre = c.categoriaId
+        ? nombreCat.get(c.categoriaId) ?? "Sin categoria"
+        : "Otro / Personalizado";
       conteoCat.set(nombre, (conteoCat.get(nombre) ?? 0) + 1);
     }
 

@@ -6,6 +6,7 @@ type DatosEmail = {
   comuna?: string | null;
   categoria: string;
   vanos: { alto: number; ancho: number }[];
+  detalle?: string | null;
   imagenes: string[];
 };
 
@@ -21,9 +22,11 @@ export async function notificarCotizacion(d: DatosEmail): Promise<void> {
 
   const resend = new Resend(apiKey);
 
-  const medidas = d.vanos
-    .map((v, i) => `  ${i + 1}. ${v.alto} x ${v.ancho} cm`)
-    .join("<br/>");
+  const detalleBloque = d.detalle
+    ? `<p><b>Detalle:</b><br/>${d.detalle.replace(/\n/g, "<br/>")}</p>`
+    : `<p><b>Medidas (alto x ancho):</b><br/>${d.vanos
+        .map((v, i) => `  ${i + 1}. ${v.alto} x ${v.ancho} cm`)
+        .join("<br/>")}</p>`;
   const fotos = d.imagenes.length
     ? d.imagenes.map((u) => `<a href="${u}">${u}</a>`).join("<br/>")
     : "Sin fotos adjuntas";
@@ -38,7 +41,7 @@ export async function notificarCotizacion(d: DatosEmail): Promise<void> {
       <p><b>Telefono:</b> ${d.telefono}</p>
       <p><b>Comuna:</b> ${d.comuna || "-"}</p>
       <p><b>Tipo de trabajo:</b> ${d.categoria}</p>
-      <p><b>Medidas (alto x ancho):</b><br/>${medidas}</p>
+      ${detalleBloque}
       <p><b>Fotos:</b><br/>${fotos}</p>
     `,
   });
