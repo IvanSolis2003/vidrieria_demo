@@ -60,6 +60,16 @@ model AdminUser {
   passwordHash String
 }
 
+model MensajeContacto {
+  id            String   @id @default(cuid())
+  nombre        String
+  email         String
+  tipoConsulta  String
+  mensaje       String   @db.Text
+  leido         Boolean  @default(false)
+  createdAt     DateTime @default(now())
+}
+
 model Testimonio {
   id        String   @id @default(cuid())
   nombre    String

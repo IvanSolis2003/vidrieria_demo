@@ -19,3 +19,19 @@ export const cotizacionSchema = z.object({
 
 export type CotizacionInput = z.infer<typeof cotizacionSchema>;
 export type Vano = z.infer<typeof vanoSchema>;
+
+export const tiposConsulta = [
+  "Cotización",
+  "Postventa / Garantía",
+  "Trabajemos juntos",
+  "Otros",
+] as const;
+
+export const contactoSchema = z.object({
+  nombre: z.string().min(2, "Ingresa tu nombre"),
+  email: z.string().email("Ingresa un email valido"),
+  tipoConsulta: z.enum(tiposConsulta, { errorMap: () => ({ message: "Selecciona un tipo de consulta" }) }),
+  mensaje: z.string().min(10, "Cuéntanos un poco más (mínimo 10 caracteres)"),
+});
+
+export type ContactoInput = z.infer<typeof contactoSchema>;

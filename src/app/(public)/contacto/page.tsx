@@ -10,6 +10,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import PhoneIcon from "@mui/icons-material/Phone";
 import PlaceIcon from "@mui/icons-material/Place";
 import { linkWhatsApp, whatsappNumero } from "@/lib/whatsapp";
+import ContactoForm from "@/components/ContactoForm";
 
 export const metadata = {
   title: "Contacto — Vidriería Demo",
@@ -73,7 +74,7 @@ export default function ContactoPage() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ p: 4, bgcolor: "#151515", color: "#fff", height: "100%" }}>
+          <Paper sx={{ p: 4, bgcolor: "#151515", color: "#fff" }}>
             <Typography variant="h6" gutterBottom>
               Cotiza mas rapido por WhatsApp
             </Typography>
@@ -101,7 +102,11 @@ export default function ContactoPage() {
         </Grid>
       </Grid>
 
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 5 }}>
+        <ContactoForm />
+      </Box>
+
+      <Box sx={{ mt: 5 }}>
         <Typography variant="h6" gutterBottom>
           Donde estamos
         </Typography>

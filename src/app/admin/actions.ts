@@ -36,6 +36,18 @@ export async function eliminarCotizacion(id: string) {
   revalidatePath("/admin");
 }
 
+export async function marcarMensajeLeido(id: string, leido: boolean) {
+  await requireAdmin();
+  await prisma.mensajeContacto.update({ where: { id }, data: { leido } });
+  revalidatePath("/admin/mensajes");
+}
+
+export async function eliminarMensaje(id: string) {
+  await requireAdmin();
+  await prisma.mensajeContacto.delete({ where: { id } });
+  revalidatePath("/admin/mensajes");
+}
+
 export async function crearProyecto(data: {
   titulo: string;
   imagenUrl: string;

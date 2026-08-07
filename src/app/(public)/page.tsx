@@ -11,6 +11,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CategoriaCard from "@/components/CategoriaCard";
 import Testimonios from "@/components/Testimonios";
+import ContactoForm from "@/components/ContactoForm";
 import { getCategorias, getProyectos, getTestimonios } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -152,6 +153,18 @@ export default async function Home() {
           <Testimonios testimonios={testimonios.slice(0, 3)} />
         </Container>
       )}
+
+      <Box sx={{ bgcolor: "#fafafa", py: 8 }}>
+        <Container maxWidth="sm">
+          <Typography variant="h4" sx={{ mb: 1, textAlign: "center" }}>
+            ¿Tienes una consulta?
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 4, textAlign: "center" }}>
+            Escríbenos y te respondemos a la brevedad.
+          </Typography>
+          <ContactoForm />
+        </Container>
+      </Box>
     </>
   );
 }

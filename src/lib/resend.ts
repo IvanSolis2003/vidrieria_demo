@@ -43,3 +43,37 @@ export async function notificarCotizacion(d: DatosEmail): Promise<void> {
     `,
   });
 }
+
+type DatosContacto = {
+  nombre: string;
+  email: string;
+  tipoConsulta: string;
+  mensaje: string;
+};
+
+export async function notificarContacto(d: DatosContacto): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const para = process.env.NOTIFY_EMAIL;
+  const from = process.env.RESEND_FROM ?? "Vidrieria Demo <onboarding@resend.dev>";
+
+  if (!apiKey || !para || apiKey === "re_DUMMY") {
+    console.warn("Resend no configurado: se omite el email de contacto.");
+    return;
+  }
+
+  const resend = new Resend(apiKey);
+
+  await resend.emails.send({
+    from,
+    to: para,
+    replyTo: d.email,
+    subject: `Nuevo mensaje de contacto: ${d.tipoConsulta} — ${d.nombre}`,
+    html: `
+      <h2>Nuevo mensaje desde el formulario de contacto</h2>
+      <p><b>Nombre:</b> ${d.nombre}</p>
+      <p><b>Email:</b> ${d.email}</p>
+      <p><b>Tipo de consulta:</b> ${d.tipoConsulta}</p>
+      <p><b>Mensaje:</b><br/>${d.mensaje.replace(/\n/g, "<br/>")}</p>
+    `,
+  });
+}

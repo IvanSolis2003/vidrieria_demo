@@ -12,6 +12,7 @@ import { cerrarSesion } from "../actions";
 
 const links = [
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
+  { href: "/admin/mensajes", label: "Mensajes" },
   { href: "/admin/proyectos", label: "Proyectos" },
   { href: "/admin/antes-despues", label: "Antes/Después" },
   { href: "/admin/productos", label: "Productos" },
