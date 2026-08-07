@@ -3,6 +3,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import theme, { roboto } from "@/theme";
 import "./globals.css";
 
@@ -44,6 +45,11 @@ export default function RootLayout({
           </ThemeProvider>
         </AppRouterCacheProvider>
         <Analytics />
+        <Script
+          src="https://iasm-pulse.vercel.app/track.js"
+          data-site="vidrieria-demo-xi.vercel.app"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
