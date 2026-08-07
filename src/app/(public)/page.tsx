@@ -9,20 +9,22 @@ import Chip from "@mui/material/Chip";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import CardActionArea from "@mui/material/CardActionArea";
 import CategoriaCard from "@/components/CategoriaCard";
 import Testimonios from "@/components/Testimonios";
 import ContactoForm from "@/components/ContactoForm";
-import { getCategorias, getProyectos, getTestimonios } from "@/lib/data";
+import { getCategorias, getProyectos, getTestimonios, getBlogPosts } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 const marcas = ["Veratec", "Winhouse", "Vidrios templados", "Termopanel DVH"];
 
 export default async function Home() {
-  const [categorias, proyectos, testimonios] = await Promise.all([
+  const [categorias, proyectos, testimonios, posts] = await Promise.all([
     getCategorias(),
     getProyectos(true),
     getTestimonios(),
+    getBlogPosts(),
   ]);
 
   return (
@@ -151,6 +153,43 @@ export default async function Home() {
             Clientes de Talca y la Región del Maule que ya confiaron en nosotros.
           </Typography>
           <Testimonios testimonios={testimonios.slice(0, 3)} />
+        </Container>
+      )}
+
+      {posts.length > 0 && (
+        <Container maxWidth="lg" sx={{ py: 8 }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ mb: 4 }}
+          >
+            <Typography variant="h4">Últimos artículos</Typography>
+            <Button component={Link} href="/blog">
+              Ver todos
+            </Button>
+          </Stack>
+          <Grid container spacing={3}>
+            {posts.slice(0, 3).map((p) => (
+              <Grid key={p.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                <Card sx={{ height: "100%" }}>
+                  <CardActionArea component={Link} href={`/blog/${p.slug}`}>
+                    {p.imagenUrl && (
+                      <CardMedia component="img" height="180" image={p.imagenUrl} alt={p.titulo} />
+                    )}
+                    <CardContent>
+                      <Typography variant="subtitle1" gutterBottom>
+                        {p.titulo}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {p.resumen}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       )}
 

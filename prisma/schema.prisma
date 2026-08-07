@@ -70,6 +70,18 @@ model MensajeContacto {
   createdAt     DateTime @default(now())
 }
 
+model BlogPost {
+  id         String   @id @default(cuid())
+  titulo     String
+  slug       String   @unique
+  resumen    String
+  contenido  String   @db.Text
+  imagenUrl  String?
+  publicado  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 model Testimonio {
   id        String   @id @default(cuid())
   nombre    String

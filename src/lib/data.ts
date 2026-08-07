@@ -58,6 +58,25 @@ export async function getAntesDespues() {
   }
 }
 
+export async function getBlogPosts(soloPublicados = true) {
+  try {
+    return await prisma.blogPost.findMany({
+      where: soloPublicados ? { publicado: true } : undefined,
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getBlogPostPorSlug(slug: string) {
+  try {
+    return await prisma.blogPost.findUnique({ where: { slug } });
+  } catch {
+    return null;
+  }
+}
+
 export async function getSiteContent() {
   try {
     const c = await prisma.siteContent.findUnique({ where: { id: "main" } });

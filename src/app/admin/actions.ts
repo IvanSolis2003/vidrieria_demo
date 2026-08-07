@@ -306,6 +306,61 @@ export async function eliminarFaq(id: string) {
   revalidatePath("/nosotros");
 }
 
+type BlogPostData = {
+  titulo: string;
+  resumen: string;
+  contenido: string;
+  imagenUrl: string;
+  publicado: boolean;
+};
+
+export async function crearBlogPost(data: BlogPostData) {
+  await requireAdmin();
+  if (!data.titulo.trim() || !data.contenido.trim()) return;
+  let slug = slugify(data.titulo);
+  if (!slug) slug = `post-${Date.now()}`;
+  const existe = await prisma.blogPost.findUnique({ where: { slug } });
+  if (existe) slug = `${slug}-${Date.now()}`;
+  await prisma.blogPost.create({
+    data: {
+      titulo: data.titulo,
+      slug,
+      resumen: data.resumen,
+      contenido: data.contenido,
+      imagenUrl: data.imagenUrl || null,
+      publicado: data.publicado,
+    },
+  });
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath("/");
+}
+
+export async function actualizarBlogPost(id: string, data: BlogPostData) {
+  await requireAdmin();
+  await prisma.blogPost.update({
+    where: { id },
+    data: {
+      titulo: data.titulo,
+      resumen: data.resumen,
+      contenido: data.contenido,
+      imagenUrl: data.imagenUrl || null,
+      publicado: data.publicado,
+    },
+  });
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath("/");
+}
+
+export async function eliminarBlogPost(id: string) {
+  await requireAdmin();
+  await prisma.blogPost.delete({ where: { id } });
+  revalidatePath("/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath("/");
+}
+
 export async function actualizarContenido(data: {
   nosotrosIntro: string;
   aniosExperiencia: string;

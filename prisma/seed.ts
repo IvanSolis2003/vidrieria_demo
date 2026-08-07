@@ -161,6 +161,36 @@ const proyectos = [
   { titulo: "Fachada vidriada local comercial", seed: "1615873968403-89e068629265", destacado: false },
 ];
 
+const blogPosts = [
+  {
+    titulo: "PVC vs Aluminio: ¿cuál conviene para tus ventanas?",
+    slug: "pvc-vs-aluminio",
+    resumen:
+      "Comparamos aislación térmica, mantención y precio entre PVC y aluminio para ayudarte a decidir.",
+    imagenUrl: img("1493809842364-78817add7ffb"),
+    contenido:
+      "El PVC destaca por su aislacion termica y acustica: al ser un material no conductor, mantiene mejor la temperatura interior y reduce el ruido exterior. Requiere poca mantencion, solo limpieza regular.\n\nEl aluminio es mas resistente estructuralmente y permite perfiles mas delgados, lo que da mas superficie de vidrio. Con ruptura de puente termico mejora bastante su aislacion, pero sigue siendo menos eficiente que el PVC.\n\nEn general, para climas con estaciones marcadas como el Maule, recomendamos PVC si buscas ahorro energetico, y aluminio si priorizas diseño minimalista o vanos muy grandes.",
+  },
+  {
+    titulo: "Cómo elegir el termopanel adecuado para tu proyecto",
+    slug: "como-elegir-termopanel",
+    resumen:
+      "Guía rápida para entender el DVH, el espesor de cámara de aire y cuándo conviene cada opción.",
+    imagenUrl: img("1600607687939-ce8a6c25118c"),
+    contenido:
+      "El termopanel o DVH (doble vidriado hermetico) consiste en dos vidrios separados por una camara de aire o gas, que mejora la aislacion termica y acustica frente a un vidrio simple.\n\nEl espesor de la camara de aire influye directamente en el rendimiento: camaras mas anchas (16-20mm) ofrecen mejor aislacion, ideal para dormitorios o zonas con ruido exterior.\n\nSi tu proyecto esta cerca de una calle con trafico o buscas reducir el consumo de calefaccion, el termopanel es una excelente inversion a mediano plazo.",
+  },
+  {
+    titulo: "Mantenimiento básico para que tus ventanas duren más",
+    slug: "mantenimiento-ventanas",
+    resumen:
+      "Consejos simples de limpieza y revisión periódica para alargar la vida útil de tus ventanas.",
+    imagenUrl: img("1600566753086-00f18fb6b3ea"),
+    contenido:
+      "Limpia los rieles y guias cada 2-3 meses para evitar acumulacion de tierra que dificulte el deslizamiento. Usa un paño humedo y evita productos abrasivos sobre el perfil.\n\nRevisa periodicamente los sellos de goma: si notas resequedad o grietas, es momento de reemplazarlos para mantener la hermeticidad.\n\nLubrica los herrajes y bisagras una vez al año con un lubricante siliconado, nunca con aceite, que puede atraer mas polvo.\n\nSi detectas condensacion excesiva entre los vidrios de un termopanel, puede indicar perdida de hermeticidad: contactanos para revisarlo.",
+  },
+];
+
 async function main() {
   await prisma.cotizacionImagen.deleteMany();
   await prisma.cotizacion.deleteMany();
@@ -170,6 +200,7 @@ async function main() {
   await prisma.testimonio.deleteMany();
   await prisma.antesDespues.deleteMany();
   await prisma.faq.deleteMany();
+  await prisma.blogPost.deleteMany();
 
   for (const c of categorias) {
     await prisma.categoria.create({
@@ -213,6 +244,10 @@ async function main() {
 
   for (const f of faqs) {
     await prisma.faq.create({ data: f });
+  }
+
+  for (const p of blogPosts) {
+    await prisma.blogPost.create({ data: p });
   }
 
   await prisma.siteContent.upsert({
