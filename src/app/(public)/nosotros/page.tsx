@@ -16,6 +16,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Nosotros — Vidriería Demo",
+  description:
+    "Experiencia, cobertura y garantía. Conoce por qué elegirnos para tu proyecto de ventanas y vidrios en Talca y la Región del Maule.",
 };
 
 export default async function NosotrosPage() {

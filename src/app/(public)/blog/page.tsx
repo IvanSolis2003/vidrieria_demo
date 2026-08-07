@@ -12,6 +12,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Blog — Vidriería Demo",
+  description:
+    "Consejos y guías sobre ventanas de PVC, aluminio, termopanel y vidrios: cómo elegir, mantener y aprovechar mejor cada solución.",
 };
 
 export default async function BlogPage() {

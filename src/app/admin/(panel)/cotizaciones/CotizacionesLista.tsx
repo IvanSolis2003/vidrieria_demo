@@ -9,8 +9,11 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
+import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
+import DownloadIcon from "@mui/icons-material/Download";
 import CotizacionRow from "./CotizacionRow";
+import { exportarCSV } from "@/lib/csv";
 
 type Cotizacion = {
   id: string;
@@ -64,6 +67,24 @@ export default function CotizacionesLista({ cotizaciones }: { cotizaciones: Coti
     setPagina(1);
   }
 
+  function exportar() {
+    exportarCSV(
+      `cotizaciones-${new Date().toISOString().slice(0, 10)}.csv`,
+      ["Nombre", "Telefono", "Comuna", "Categoria", "Detalle", "Medidas (cm)", "Estado", "Fecha", "Fotos"],
+      filtradas.map((c) => [
+        c.nombre,
+        c.telefono,
+        c.comuna || "",
+        c.categoria,
+        c.detalle || "",
+        c.vanos.map((v) => `${v.alto}x${v.ancho}`).join(" / "),
+        c.estado,
+        c.createdAt,
+        c.imagenes.length,
+      ]),
+    );
+  }
+
   return (
     <Box>
       <Stack
@@ -85,23 +106,34 @@ export default function CotizacionesLista({ cotizaciones }: { cotizaciones: Coti
           <Tab value="cerrada" label={`Cerradas (${conteos.cerrada})`} />
         </Tabs>
 
-        <TextField
-          size="small"
-          placeholder="Buscar por nombre o telefono"
-          value={busqueda}
-          onChange={(e) => {
-            setBusqueda(e.target.value);
-            setPagina(1);
-          }}
-          sx={{ minWidth: { md: 280 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+          <TextField
+            size="small"
+            placeholder="Buscar por nombre o telefono"
+            value={busqueda}
+            onChange={(e) => {
+              setBusqueda(e.target.value);
+              setPagina(1);
+            }}
+            sx={{ minWidth: { md: 280 } }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            size="small"
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            onClick={exportar}
+            disabled={filtradas.length === 0}
+          >
+            Exportar CSV
+          </Button>
+        </Stack>
       </Stack>
 
       {visibles.length === 0 ? (

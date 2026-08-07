@@ -15,6 +15,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Productos y servicios — Vidriería Demo",
+  description:
+    "Ventanas de PVC, termopanel y monolítico, vidrios dimensionados y shower door. Conoce nuestras líneas de trabajo y cotiza en línea.",
 };
 
 export default async function ProductosPage() {

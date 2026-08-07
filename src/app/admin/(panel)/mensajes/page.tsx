@@ -1,8 +1,7 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
 import { prisma } from "@/lib/prisma";
-import MensajeRow from "./MensajeRow";
+import MensajesLista from "./MensajesLista";
 
 export const dynamic = "force-dynamic";
 
@@ -26,24 +25,17 @@ export default async function MensajesPage() {
         Enviados desde el formulario de contacto del sitio (home y página Contacto).
       </Typography>
 
-      {mensajes.length === 0 ? (
-        <Typography color="text.secondary">Todavía no hay mensajes.</Typography>
-      ) : (
-        <Stack spacing={2}>
-          {mensajes.map((m) => (
-            <MensajeRow
-              key={m.id}
-              id={m.id}
-              nombre={m.nombre}
-              email={m.email}
-              tipoConsulta={m.tipoConsulta}
-              mensaje={m.mensaje}
-              leido={m.leido}
-              createdAt={new Date(m.createdAt).toLocaleString("es-CL")}
-            />
-          ))}
-        </Stack>
-      )}
+      <MensajesLista
+        mensajes={mensajes.map((m) => ({
+          id: m.id,
+          nombre: m.nombre,
+          email: m.email,
+          tipoConsulta: m.tipoConsulta,
+          mensaje: m.mensaje,
+          leido: m.leido,
+          createdAt: new Date(m.createdAt).toLocaleString("es-CL"),
+        }))}
+      />
     </Container>
   );
 }

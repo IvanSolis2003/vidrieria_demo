@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getBlogPostPorSlug } from "@/lib/data";
+import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,19 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const post = await getBlogPostPorSlug(slug);
-  return { title: post ? `${post.titulo} — Blog Vidriería Demo` : "Blog — Vidriería Demo" };
+  if (!post) return { title: "Blog — Vidriería Demo" };
+
+  const titulo = `${post.titulo} — Blog Vidriería Demo`;
+  return {
+    title: titulo,
+    description: post.resumen,
+    openGraph: {
+      title: titulo,
+      description: post.resumen,
+      type: "article",
+      images: post.imagenUrl ? [post.imagenUrl] : undefined,
+    },
+  };
 }
 
 export default async function BlogPostPage({
@@ -29,8 +42,24 @@ export default async function BlogPostPage({
 
   if (!post || !post.publicado) notFound();
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.titulo,
+    description: post.resumen,
+    image: post.imagenUrl ?? undefined,
+    datePublished: post.createdAt,
+    dateModified: post.updatedAt,
+    author: { "@type": "Organization", name: "Vidriería Demo" },
+    mainEntityOfPage: `${siteUrl}/blog/${post.slug}`,
+  };
+
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <Button component={Link} href="/blog" startIcon={<ArrowBackIcon />} sx={{ mb: 3 }}>
         Volver al blog
       </Button>

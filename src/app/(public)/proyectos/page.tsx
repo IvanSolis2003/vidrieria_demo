@@ -16,6 +16,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Proyectos — Vidriería Demo",
+  description:
+    "Galería de proyectos instalados: ventanas PVC, termopanel, shower door y más. Mira comparaciones antes y después de nuestro trabajo.",
 };
 
 const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";

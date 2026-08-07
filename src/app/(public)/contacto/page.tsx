@@ -14,6 +14,8 @@ import ContactoForm from "@/components/ContactoForm";
 
 export const metadata = {
   title: "Contacto — Vidriería Demo",
+  description:
+    "Contáctanos por WhatsApp o formulario. Atendemos Talca y la Región del Maule: ventanas PVC, termopanel, vidrios y shower door.",
 };
 
 const instagram = process.env.NEXT_PUBLIC_INSTAGRAM ?? "https://instagram.com/vidrieria.demo";

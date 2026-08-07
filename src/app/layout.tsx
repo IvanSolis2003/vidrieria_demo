@@ -5,25 +5,44 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import theme, { roboto } from "@/theme";
+import { siteUrl, siteTitulo, siteDescripcion } from "@/lib/site";
+import { whatsappNumero } from "@/lib/whatsapp";
 import "./globals.css";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
-
-const titulo = "Vidriería Demo — Aluminio, PVC y Vidrios";
-const descripcion =
-  "Ventanas de PVC, termopanel, vidrios dimensionados y shower door. Cotiza tu proyecto en línea.";
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  name: "Vidriería Demo",
+  description: siteDescripcion,
+  url: siteUrl,
+  telephone: `+${whatsappNumero}`,
+  priceRange: "$$",
+  areaServed: {
+    "@type": "State",
+    name: "Región del Maule",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Talca",
+    addressRegion: "Región del Maule",
+    addressCountry: "CL",
+  },
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: titulo,
-  description: descripcion,
+  title: { default: siteTitulo, template: "%s" },
+  description: siteDescripcion,
+  keywords: [
+    "ventanas PVC Talca",
+    "vidrios Talca",
+    "termopanel Talca",
+    "shower door Talca",
+    "ventanas aluminio Region del Maule",
+  ],
   openGraph: {
-    title: titulo,
-    description: descripcion,
+    title: siteTitulo,
+    description: siteDescripcion,
     type: "website",
     locale: "es_CL",
     siteName: "Vidriería Demo",
@@ -38,6 +57,11 @@ export default function RootLayout({
   return (
     <html lang="es" className={roboto.className}>
       <body>
+        <Script
+          id="local-business-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        />
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />

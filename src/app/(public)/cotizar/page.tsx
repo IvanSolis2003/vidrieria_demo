@@ -7,6 +7,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Cotizar — Vidriería Demo",
+  description:
+    "Cotiza tu proyecto de ventanas, vidrios o termopanel en pocos pasos. Recibe un precio referencial al instante.",
 };
 
 export default async function CotizarPage({
