@@ -38,6 +38,7 @@ type Categoria = {
   descripcion: string | null;
   imagenUrl: string | null;
   precioM2: number | null;
+  colores: string | null;
 };
 
 const clp = new Intl.NumberFormat("es-CL", {
@@ -251,6 +252,11 @@ export default function Cotizador({
                             {c.descripcion && (
                               <Typography variant="body2" color="text.secondary">
                                 {c.descripcion}
+                              </Typography>
+                            )}
+                            {c.colores && (
+                              <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1 }}>
+                                Colores: {c.colores}
                               </Typography>
                             )}
                           </CardContent>

@@ -58,6 +58,45 @@ const testimonios = [
 const img = (id: string) =>
   `https://images.unsplash.com/photo-${id}?w=900&q=80&auto=format&fit=crop`;
 
+const faqs = [
+  {
+    orden: 1,
+    pregunta: "¿Cuánto demora la instalación?",
+    respuesta:
+      "Depende del proyecto: una ventana individual puede instalarse en un dia, mientras que un proyecto completo de casa toma entre 3 y 5 dias habiles. Te damos un plazo exacto despues de la visita tecnica.",
+  },
+  {
+    orden: 2,
+    pregunta: "¿La visita para cotizar tiene costo?",
+    respuesta:
+      "No, la medicion y asesoria tecnica en terreno no tienen costo. Vamos, tomamos las medidas exactas y te entregamos una cotizacion detallada.",
+  },
+  {
+    orden: 3,
+    pregunta: "¿Qué garantía tienen los trabajos?",
+    respuesta:
+      "Todos nuestros trabajos incluyen garantia por escrito en fabricacion e instalacion. Si algo falla dentro del periodo de garantia, respondemos sin costo para ti.",
+  },
+  {
+    orden: 4,
+    pregunta: "¿Trabajan fuera de Talca?",
+    respuesta:
+      "Si, cubrimos Talca y comunas cercanas de la Region del Maule como San Clemente, Curico y Linares. Consultanos por tu comuna si no estas seguro.",
+  },
+  {
+    orden: 5,
+    pregunta: "¿Puedo elegir el color del perfil?",
+    respuesta:
+      "Si, la mayoria de nuestros productos estan disponibles en varios colores (blanco, grafito, roble, nogal, negro, entre otros segun la linea). Lo vemos juntos en la visita tecnica.",
+  },
+  {
+    orden: 6,
+    pregunta: "¿Cómo se paga el trabajo?",
+    respuesta:
+      "Habitualmente se solicita un anticipo al confirmar el pedido y el saldo contra entrega/instalacion. Los medios de pago se coordinan directamente contigo.",
+  },
+];
+
 const categorias = [
   {
     nombre: "Ventanas PVC",
@@ -66,6 +105,7 @@ const categorias = [
       "Ventanas de PVC de alta hermeticidad y aislacion termica y acustica. Perfiles Veratec y Winhouse.",
     imagenUrl: img("1493809842364-78817add7ffb"),
     precioM2: 120000,
+    colores: "Blanco, Grafito, Roble, Nogal, Negro",
     productos: [
       { nombre: "Ventana corredera PVC", descripcion: "Ideal para living y dormitorios, facil operacion." },
       { nombre: "Ventana proyectante PVC", descripcion: "Apertura hacia afuera, excelente ventilacion." },
@@ -79,6 +119,7 @@ const categorias = [
       "Vidrios termopanel (doble vidriado hermetico) y monolitico para todo tipo de proyecto.",
     imagenUrl: img("1600607687939-ce8a6c25118c"),
     precioM2: 95000,
+    colores: "Blanco, Gris, Negro",
     productos: [
       { nombre: "Termopanel DVH", descripcion: "Doble vidrio con camara de aire, ahorro energetico." },
       { nombre: "Vidrio monolitico", descripcion: "Vidrio simple templado o laminado segun uso." },
@@ -103,6 +144,7 @@ const categorias = [
       "Separadores de bano en vidrio templado con herrajes de calidad. Instalacion incluida.",
     imagenUrl: img("1584622650111-993a426fbf0a"),
     precioM2: 85000,
+    colores: "Transparente, Esmerilado",
     productos: [
       { nombre: "Shower door corredero", descripcion: "Sistema corredero para espacios reducidos." },
       { nombre: "Shower door abatible", descripcion: "Apertura clasica, elegante y funcional." },
@@ -127,6 +169,7 @@ async function main() {
   await prisma.proyecto.deleteMany();
   await prisma.testimonio.deleteMany();
   await prisma.antesDespues.deleteMany();
+  await prisma.faq.deleteMany();
 
   for (const c of categorias) {
     await prisma.categoria.create({
@@ -136,6 +179,7 @@ async function main() {
         descripcion: c.descripcion,
         imagenUrl: c.imagenUrl,
         precioM2: c.precioM2,
+        colores: "colores" in c ? c.colores : null,
         productos: { create: c.productos },
       },
     });
@@ -165,6 +209,10 @@ async function main() {
   ];
   for (const a of antesDespues) {
     await prisma.antesDespues.create({ data: a });
+  }
+
+  for (const f of faqs) {
+    await prisma.faq.create({ data: f });
   }
 
   await prisma.siteContent.upsert({

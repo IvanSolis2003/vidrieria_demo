@@ -31,6 +31,7 @@ type Categoria = {
   descripcion: string | null;
   imagenUrl: string | null;
   precioM2: number | null;
+  colores: string | null;
   productos: Producto[];
 };
 
@@ -40,6 +41,7 @@ type CatForm = {
   descripcion: string;
   imagenUrl: string;
   precioM2: string;
+  colores: string;
 };
 type ProdForm = { id: string; categoriaId: string; nombre: string; descripcion: string };
 
@@ -60,6 +62,7 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
           descripcion: cat.descripcion,
           imagenUrl: cat.imagenUrl,
           precioM2,
+          colores: cat.colores,
         });
       } else {
         await crearCategoria({
@@ -67,6 +70,7 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
           descripcion: cat.descripcion,
           imagenUrl: cat.imagenUrl,
           precioM2,
+          colores: cat.colores,
         });
       }
       setCat(null);
@@ -113,7 +117,9 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
         startIcon={<AddIcon />}
         variant="contained"
         sx={{ mb: 3 }}
-        onClick={() => setCat({ id: "", nombre: "", descripcion: "", imagenUrl: "", precioM2: "" })}
+        onClick={() =>
+          setCat({ id: "", nombre: "", descripcion: "", imagenUrl: "", precioM2: "", colores: "" })
+        }
       >
         Nueva categoria
       </Button>
@@ -138,6 +144,7 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
                       descripcion: c.descripcion ?? "",
                       imagenUrl: c.imagenUrl ?? "",
                       precioM2: c.precioM2 != null ? String(c.precioM2) : "",
+                      colores: c.colores ?? "",
                     })
                   }
                 >
@@ -226,6 +233,13 @@ export default function ProductosManager({ categorias }: { categorias: Categoria
                 onChange={(e) => setCat({ ...cat, precioM2: e.target.value })}
                 fullWidth
                 helperText="Usado para el precio estimado del cotizador. Dejar vacío para no mostrarlo."
+              />
+              <TextField
+                label="Colores disponibles"
+                value={cat.colores}
+                onChange={(e) => setCat({ ...cat, colores: e.target.value })}
+                fullWidth
+                helperText="Separados por coma, ej: Blanco, Grafito, Negro"
               />
               <SubirImagen value={cat.imagenUrl} onChange={(url) => setCat({ ...cat, imagenUrl: url })} />
             </Stack>

@@ -42,6 +42,14 @@ export async function getTestimonios() {
   }
 }
 
+export async function getFaqs() {
+  try {
+    return await prisma.faq.findMany({ orderBy: { orden: "asc" } });
+  } catch {
+    return [];
+  }
+}
+
 export async function getAntesDespues() {
   try {
     return await prisma.antesDespues.findMany({ orderBy: { createdAt: "desc" } });

@@ -70,7 +70,13 @@ export async function eliminarProyecto(id: string) {
 
 export async function actualizarCategoria(
   id: string,
-  data: { nombre: string; descripcion: string; imagenUrl: string; precioM2: number | null },
+  data: {
+    nombre: string;
+    descripcion: string;
+    imagenUrl: string;
+    precioM2: number | null;
+    colores: string;
+  },
 ) {
   await requireAdmin();
   await prisma.categoria.update({
@@ -80,6 +86,7 @@ export async function actualizarCategoria(
       descripcion: data.descripcion || null,
       imagenUrl: data.imagenUrl || null,
       precioM2: data.precioM2,
+      colores: data.colores || null,
     },
   });
   revalidatePath("/admin/productos");
@@ -106,6 +113,7 @@ export async function crearCategoria(data: {
   descripcion: string;
   imagenUrl: string;
   precioM2: number | null;
+  colores: string;
 }) {
   await requireAdmin();
   if (!data.nombre.trim()) return;
@@ -120,6 +128,7 @@ export async function crearCategoria(data: {
       descripcion: data.descripcion || null,
       imagenUrl: data.imagenUrl || null,
       precioM2: data.precioM2,
+      colores: data.colores || null,
     },
   });
   revalidatePath("/admin/productos");
@@ -259,6 +268,30 @@ export async function eliminarAntesDespues(id: string) {
   await prisma.antesDespues.delete({ where: { id } });
   revalidatePath("/admin/antes-despues");
   revalidatePath("/proyectos");
+}
+
+type FaqData = { pregunta: string; respuesta: string; orden: number };
+
+export async function crearFaq(data: FaqData) {
+  await requireAdmin();
+  if (!data.pregunta.trim() || !data.respuesta.trim()) return;
+  await prisma.faq.create({ data });
+  revalidatePath("/admin/faq");
+  revalidatePath("/nosotros");
+}
+
+export async function actualizarFaq(id: string, data: FaqData) {
+  await requireAdmin();
+  await prisma.faq.update({ where: { id }, data });
+  revalidatePath("/admin/faq");
+  revalidatePath("/nosotros");
+}
+
+export async function eliminarFaq(id: string) {
+  await requireAdmin();
+  await prisma.faq.delete({ where: { id } });
+  revalidatePath("/admin/faq");
+  revalidatePath("/nosotros");
 }
 
 export async function actualizarContenido(data: {

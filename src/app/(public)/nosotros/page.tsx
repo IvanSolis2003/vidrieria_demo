@@ -8,8 +8,9 @@ import Button from "@mui/material/Button";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import PlaceIcon from "@mui/icons-material/Place";
 import Testimonios from "@/components/Testimonios";
+import FaqList from "@/components/FaqList";
 import { ventajas } from "@/lib/contenido";
-import { getSiteContent, getTestimonios } from "@/lib/data";
+import { getSiteContent, getTestimonios, getFaqs } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -18,9 +19,10 @@ export const metadata = {
 };
 
 export default async function NosotrosPage() {
-  const [contenido, testimonios] = await Promise.all([
+  const [contenido, testimonios, faqs] = await Promise.all([
     getSiteContent(),
     getTestimonios(),
+    getFaqs(),
   ]);
 
   const stats = [
@@ -100,6 +102,15 @@ export default async function NosotrosPage() {
             <Testimonios testimonios={testimonios} />
           </Container>
         </Box>
+      )}
+
+      {faqs.length > 0 && (
+        <Container maxWidth="md" sx={{ py: 6 }}>
+          <Typography variant="h5" sx={{ mb: 3 }}>
+            Preguntas frecuentes
+          </Typography>
+          <FaqList faqs={faqs} />
+        </Container>
       )}
 
       <Container maxWidth="lg" sx={{ py: 6, textAlign: "center" }}>

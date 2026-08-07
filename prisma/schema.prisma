@@ -14,6 +14,7 @@ model Categoria {
   descripcion String?
   imagenUrl   String?
   precioM2    Int?
+  colores     String?
   productos   Producto[]
 }
 
@@ -75,6 +76,13 @@ model AntesDespues {
   imagenAntesUrl String
   imagenDespuesUrl String
   createdAt      DateTime @default(now())
+}
+
+model Faq {
+  id         String @id @default(cuid())
+  pregunta   String
+  respuesta  String @db.Text
+  orden      Int    @default(0)
 }
 
 model SiteContent {

@@ -6,6 +6,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import CategoriaCard from "@/components/CategoriaCard";
 import { getCategorias } from "@/lib/data";
 
@@ -59,6 +61,18 @@ export default async function ProductosPage() {
                         </Box>
                       ))}
                     </List>
+                    {c.colores && (
+                      <Box sx={{ mt: 2 }}>
+                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                          Colores disponibles:
+                        </Typography>
+                        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                          {c.colores.split(",").map((color) => (
+                            <Chip key={color} label={color.trim()} size="small" variant="outlined" />
+                          ))}
+                        </Stack>
+                      </Box>
+                    )}
                   </Box>
                 </Grid>
               </Grid>
